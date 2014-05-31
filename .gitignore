@@ -1,0 +1,18 @@
+## Gradle files
+.gradle
+build/
+target/
+eclipse/
+out/
+
+## Forge files
+MinecraftForge-*.txt
+*-fml.txt
+forge-*.zip
+forge-*.txt
+README.txt
+
+## IntelliJ Files
+*.iml
+*.ipr
+*.iws

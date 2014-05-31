@@ -1,0 +1,16 @@
+[
+{
+  "modid": "survival-plus",
+  "name": "Survival Plus Client",
+  "description": "Client mod for survival plus.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://forgotten-realms.co.uk",
+  "updateUrl": "",
+  "authorList": ["TheFishLive"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
