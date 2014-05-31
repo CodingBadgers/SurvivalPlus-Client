@@ -3,6 +3,7 @@ package uk.codingbadgers.survivalplus.gui;
 import com.google.common.collect.Lists;
 
 import com.google.common.collect.Maps;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Mouse;
@@ -51,12 +52,17 @@ public class SkillsGui extends SurvivalPlusGui {
     }
 
     private static void addDefaultTabs() {
-        tabs.add(new HomeTab());
-        tabs.add(new ProgressTab());
+        registerTab(new HomeTab());
+        registerTab(new ProgressTab());
     }
 
     public static void registerCustomTab(Tab tab) {
-        tabs.add(new RemoteTab(tab));
+        registerTab(new RemoteTab(tab));
+    }
+
+    public static void registerTab(SkillsTab tab) {
+        tabs.add(tab);
+        tab.getIcon().loadTexture(Minecraft.getMinecraft());
     }
 
     public static void setContents(TabContentsData data) {

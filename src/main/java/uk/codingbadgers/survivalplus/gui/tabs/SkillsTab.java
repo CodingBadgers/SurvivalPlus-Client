@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import static org.lwjgl.opengl.GL11.*;
 
 import uk.codingbadgers.survivalplus.ModConstants;
+import uk.codingbadgers.survivalplus.icon.Icon;
 
 public abstract class SkillsTab extends Gui {
 
@@ -26,25 +27,13 @@ public abstract class SkillsTab extends Gui {
         drawTexturedModalRect(x, y, u, v, 28, h);
 
         if (getIcon() != null) {
-            drawIcon(mc, x + 3, y + 5);
+            getIcon().draw(mc, x + 3, y + 5, (int) this.zLevel, 22, 22);
         }
 
         glDisable(GL_LIGHTING);
     }
 
-    private void drawIcon(Minecraft mc, int x, int y) {
-        mc.renderEngine.bindTexture(getIcon());
-
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 22), (double)this.zLevel, 0, 1);
-        tessellator.addVertexWithUV((double)(x + 22), (double)(y + 22), (double)this.zLevel, 1, 1);
-        tessellator.addVertexWithUV((double)(x + 22), (double)(y + 0), (double)this.zLevel, 1, 0);
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, 0, 0);
-        tessellator.draw();
-    }
-
-    public abstract ResourceLocation getIcon();
+    public abstract Icon getIcon();
 
     public abstract ResourceLocation getBackground();
 

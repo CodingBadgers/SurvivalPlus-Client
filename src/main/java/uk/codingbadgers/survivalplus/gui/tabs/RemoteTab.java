@@ -4,19 +4,30 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import uk.codingbadgers.survivalplus.data.TabContentsData;
 import uk.codingbadgers.survivalplus.data.TabsData.*;
+import uk.codingbadgers.survivalplus.icon.Icon;
+import uk.codingbadgers.survivalplus.icon.RemoteIcon;
+
+import java.net.MalformedURLException;
+import java.net.URI;
 
 public class RemoteTab extends SkillsTab {
 
     private Tab data;
     private TabContentsData contents;
+    private RemoteIcon icon;
 
     public RemoteTab(Tab tab) {
         this.data = tab;
+        try {
+            icon = new RemoteIcon(URI.create("http://forgotten-realms.co.uk/assets/survival-plus/icons/fishing.png").toURL());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public ResourceLocation getIcon() {
-        return null;
+    public Icon getIcon() {
+        return icon;
     }
 
     @Override

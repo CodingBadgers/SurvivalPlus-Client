@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import uk.codingbadgers.survivalplus.ModConstants;
 import uk.codingbadgers.survivalplus.data.SkillsData;
 import uk.codingbadgers.survivalplus.data.SkillsData.Skill;
+import uk.codingbadgers.survivalplus.icon.Icon;
+import uk.codingbadgers.survivalplus.icon.SimpleIcon;
 
 public class ProgressTab extends SkillsTab {
 
@@ -23,8 +25,8 @@ public class ProgressTab extends SkillsTab {
     }
 
     @Override
-    public ResourceLocation getIcon() {
-        return new ResourceLocation(ModConstants.MOD_ID, "textures/icons/skills.png");
+    public Icon getIcon() {
+        return new SimpleIcon(new ResourceLocation(ModConstants.MOD_ID, "textures/icons/skills.png"));
     }
 
     @Override

@@ -1,16 +1,18 @@
 package uk.codingbadgers.survivalplus.gui.tabs;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+
 import uk.codingbadgers.survivalplus.ModConstants;
+import uk.codingbadgers.survivalplus.icon.Icon;
+import uk.codingbadgers.survivalplus.icon.SimpleIcon;
 
 public class HomeTab extends SkillsTab {
 
     @Override
-    public ResourceLocation getIcon() {
-        return new ResourceLocation(ModConstants.MOD_ID, "textures/icons/home.png");
+    public Icon getIcon() {
+        return new SimpleIcon(new ResourceLocation(ModConstants.MOD_ID, "textures/icons/home.png"));
     }
 
     @Override
