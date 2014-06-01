@@ -78,7 +78,7 @@ public class SkillsGui extends SurvivalPlusGui {
         this.scrollingEnabled = tabs.get(selectedTab).isScrollEnabled();
         this.scrollPos = 0;
 
-        SurvivalPlus.INSTANCE.networkHandler.sendPacket(new SkillsPacket());
+        SurvivalPlus.INSTANCE.sendPacket(new SkillsPacket());
     }
 
     @Override
@@ -181,7 +181,7 @@ public class SkillsGui extends SurvivalPlusGui {
         this.scrollPos = 0;
 
         if (tabs.get(selectedTab) instanceof RemoteTab) {
-            SurvivalPlus.INSTANCE.networkHandler.sendPacket(TabDataPacket.build(tabs.get(selectedTab).getId()));
+            SurvivalPlus.INSTANCE.sendPacket(TabDataPacket.build(tabs.get(selectedTab).getId()));
         }
     }
 

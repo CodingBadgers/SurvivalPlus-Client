@@ -56,7 +56,7 @@ public class HandshakePacket extends Packet {
 
         SkillsGui.clearTabs();
         LOGGER.info(PACKET_HANDSHAKE, "Handshake response: {}", responseStatus.name());
-        SurvivalPlus.INSTANCE.networkHandler.sendPacket(HandshakePacket.build(responseStatus));
+        SurvivalPlus.INSTANCE.sendPacket(HandshakePacket.build(responseStatus));
     }
 
     public static HandshakePacket build(HandshakeStatus status) {

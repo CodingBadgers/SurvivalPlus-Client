@@ -10,8 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import org.apache.commons.io.Charsets;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import uk.codingbadgers.survivalplus.ModConstants;
@@ -23,7 +21,7 @@ import uk.codingbadgers.survivalplus.network.exceptions.NetworkException;
  */
 public abstract class Packet {
 
-    protected static final Marker MARKER_PACKET = MarkerManager.getMarker("NETWORK_PACKET", PacketPipeline.NETWORK);
+    protected static final Marker MARKER_PACKET = MarkerManager.getMarker("NETWORK_PACKET", ChannelHandler.NETWORK);
 
     protected static final Gson GSON = new GsonBuilder()
             .setVersion(ModConstants.NETWORK_PROTOCOL_VERSION)
@@ -72,7 +70,7 @@ public abstract class Packet {
      * @param string the string to write
      * @param buffer the buffer to write to
      */
-    public void writeString(String string, ByteBuf buffer) {
+    public void writeString(String string, ByteBuf buffer) { // TODO convert to use ByteBufUtils
         byte[] bytes = string.getBytes(Charsets.UTF_8);
         buffer.writeShort(bytes.length);
         buffer.writeBytes(bytes);

@@ -43,7 +43,7 @@ public class ListTabsPacket extends Packet {
         for (TabsData.Tab tab : data.tabs) {
             LOGGER.info(PACKET_LIST_TABS, "Loaded tab {} from remote.", tab.id);
             SkillsGui.registerCustomTab(tab);
-            SurvivalPlus.INSTANCE.networkHandler.sendPacket(TabDataPacket.build(tab.id));
+            SurvivalPlus.INSTANCE.sendPacket(TabDataPacket.build(tab.id));
         }
     }
 }
