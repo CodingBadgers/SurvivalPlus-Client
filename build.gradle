@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.0"
+version = "1.0-a"
 group= "uk.codingbadgers" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "survival-plus"
 
@@ -29,8 +29,16 @@ minecraft {
 dependencies {
 }
 
-processResources
-{
+jar {
+    manifest {
+        attributes("Implementation-Title": "SurvivalPlusClient",
+                        "Implementation-Version": version,
+                        "Implementation-Vendor": "CodingBadgers")
+    }
+}
+
+
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
