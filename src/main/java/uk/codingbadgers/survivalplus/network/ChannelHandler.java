@@ -71,7 +71,7 @@ public class ChannelHandler extends FMLIndexedMessageToMessageCodec<Packet> {
         }
     }
 
-    public static FMLEmbeddedChannel getChannelHandlers(String modId, Class<? extends Packet>...packetTypes) {
+    public static FMLEmbeddedChannel getChannelHandlers(String modId, Class<? extends Packet>... packetTypes) {
         EnumMap<Side, FMLEmbeddedChannel> handlers = NetworkRegistry.INSTANCE.newChannel(modId, new ChannelHandler(modId, packetTypes));
 
         PacketExecutor executor = new PacketExecutor();

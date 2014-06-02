@@ -14,6 +14,7 @@ import uk.codingbadgers.survivalplus.network.ChannelHandler;
 import uk.codingbadgers.survivalplus.network.Packet;
 import uk.codingbadgers.survivalplus.network.packets.*;
 import uk.codingbadgers.survivalplus.proxy.Proxy;
+import uk.codingbadgers.survivalplus.utils.CacheUtils;
 
 import java.io.File;
 
@@ -31,16 +32,20 @@ public class SurvivalPlus {
     public static Proxy PROXY;
 
     public FMLEmbeddedChannel networkHandler;
+    public File cacheDir;
     public boolean enabled = false; // TODO reset on joining server
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        cacheDir = new File(event.getModConfigurationDirectory().getParentFile(), "survival-plus" + File.separatorChar + "cache");
+        CacheUtils.setBase(cacheDir);
 
         PROXY.preInit(event);
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+        CacheUtils.cleanCache();
 
         networkHandler = ChannelHandler.getChannelHandlers(ModConstants.NETWORK_CHANNEL_ID,
                 HandshakePacket.class,
