@@ -5,6 +5,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
@@ -12,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 import uk.codingbadgers.survivalplus.input.KeyBindingHandler;
 import uk.codingbadgers.survivalplus.input.TestGuiHandler;
 
+@SideOnly(Side.CLIENT)
 public class ClientProxy implements Proxy {
 
     @Override

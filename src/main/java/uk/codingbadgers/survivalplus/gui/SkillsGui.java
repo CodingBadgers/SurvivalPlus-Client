@@ -66,11 +66,17 @@ public class SkillsGui extends SurvivalPlusGui {
     }
 
     public static void setContents(TabContentsData data) {
+        ((RemoteTab) getTab(data.tab)).setData(data);
+    }
+
+    public static SkillsTab getTab(String id) {
         for (SkillsTab tab : tabs) {
-            if (tab instanceof RemoteTab && tab.getId().equalsIgnoreCase(data.tab)) {
-                ((RemoteTab) tab).setData(data);
+            if (tab instanceof RemoteTab && tab.getId().equalsIgnoreCase(id)) {
+                return tab;
             }
         }
+
+        return null;
     }
 
     @Override
@@ -92,6 +98,11 @@ public class SkillsGui extends SurvivalPlusGui {
                 setSelectedTab(i);
                 break;
             }
+        }
+
+        if (isMouseInside(mouseX, mouseY, startX + 8, startY + 9, 226, 147)) {
+            SkillsTab tab = tabs.get(selectedTab);
+            tab.mouseClicked(mouseX, mouseY, button);
         }
     }
 
@@ -130,6 +141,10 @@ public class SkillsGui extends SurvivalPlusGui {
         int y = startY - 28;
 
         for (int i = 0; i < tabs.size(); i++) {
+            if (!tabs.get(i).isGlobal()) {
+                continue;
+            }
+
             if (i != selectedTab) {
                 renderTab(i, x, y);
             }
@@ -152,7 +167,7 @@ public class SkillsGui extends SurvivalPlusGui {
         renderTab(selectedTab, startX + ((selectedTab) * 28), y);
         mc.getTextureManager().bindTexture(guiTexture);
         this.drawTexturedModalRect(startX + 239, (int) (startY + 9 + Math.floor(scrollPos * SCROLL_LENGTH)), scrollingEnabled ? 0 : 12, 164, 12, 15);
-        tabs.get(selectedTab).drawTabContent(mc, startX + 8, startY + 10, scrollPos);
+        tabs.get(selectedTab).drawTabContent(mc, startX + 8, startY + 10, mouseX, mouseY, scrollPos);
 
         for (int i = 0; i < tabs.size(); i++) {
             if (isMouseInside(mouseX, mouseY, startX + (i * 28), startY - 28, 28, 28)) {
@@ -184,5 +199,4 @@ public class SkillsGui extends SurvivalPlusGui {
             SurvivalPlus.INSTANCE.sendPacket(TabDataPacket.build(tabs.get(selectedTab).getId()));
         }
     }
-
 }

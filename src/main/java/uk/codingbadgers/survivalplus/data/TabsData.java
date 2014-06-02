@@ -7,14 +7,16 @@ public class TabsData {
     public Tab[] tabs;
 
     public static class Tab {
+        public boolean global;
         public String id;
         public String name;
         public IconData icon;
 
-        public Tab(String id, String name, IconData icon) {
+        public Tab(String id, String name, IconData icon, boolean global) {
             this.id = id;
             this.name = name;
             this.icon = icon;
+            this.global = global;
         }
 
         @Override
@@ -23,6 +25,7 @@ public class TabsData {
             sb.append("id='").append(id).append('\'');
             sb.append(", name='").append(name).append('\'');
             sb.append(", icon='").append(icon).append('\'');
+            sb.append(", global='").append(global).append('\'');
             sb.append('}');
             return sb.toString();
         }

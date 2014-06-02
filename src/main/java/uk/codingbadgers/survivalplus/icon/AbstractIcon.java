@@ -12,6 +12,10 @@ public abstract class AbstractIcon implements Icon {
 
     protected int glTextureId = -1;
 
+    public boolean hasTextureId() {
+        return glTextureId != -1;
+    }
+
     public int getGlTextureId()
     {
         if (this.glTextureId == -1)
@@ -30,4 +34,5 @@ public abstract class AbstractIcon implements Icon {
             this.glTextureId = -1;
         }
     }
+
 }

@@ -37,7 +37,7 @@ public abstract class SkillsTab extends Gui {
 
     public abstract ResourceLocation getBackground();
 
-    public abstract void drawTabContent(Minecraft mc, int x, int y, float scroll);
+    public abstract void drawTabContent(Minecraft mc, int xPos, int yPos, int mouseX, int mouseY, float scroll);
 
     public abstract String getName();
 
@@ -46,5 +46,11 @@ public abstract class SkillsTab extends Gui {
     public String getId() {
         return getClass().getSimpleName().toLowerCase();
     }
+
+    public boolean isGlobal() {
+        return true;
+    }
+
+    public void mouseClicked(int mouseX, int mouseY, int button) {}
 
 }

@@ -29,7 +29,7 @@ public class RemoteTab extends SkillsTab {
     }
 
     @Override
-    public void drawTabContent(Minecraft mc, int x, int y, float scroll) {
+    public void drawTabContent(Minecraft mc, int x, int y, int mouseX, int mouseY, float scroll) {
         if (this.contents == null) {
             return;
         }
@@ -60,6 +60,11 @@ public class RemoteTab extends SkillsTab {
     @Override
     public boolean isScrollEnabled() {
         return false;
+    }
+
+    @Override
+    public boolean isGlobal() {
+        return data.global;
     }
 
     public void setData(TabContentsData data) {

@@ -25,7 +25,9 @@ public class SkillsPacket extends Packet {
 
     @Override
     public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer) throws NetworkException {
-        data = GSON.fromJson(readString(buffer), SkillsData.class);
+        String string = readString(buffer);
+        LOGGER.info(PACKET_SKILLS, "Data: {}", string);
+        data = GSON.fromJson(string, SkillsData.class);
     }
 
     @Override

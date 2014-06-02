@@ -10,5 +10,6 @@ public class SkillsData {
         public int level;
         public float progress;
         public int maxLevel;
+        public String tab;
     }
 }
