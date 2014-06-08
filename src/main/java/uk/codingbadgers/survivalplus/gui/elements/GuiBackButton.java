@@ -9,8 +9,8 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 
 public class GuiBackButton extends GuiButton {
 
-    public GuiBackButton(int par1, int par2, int par3) {
-        super(par1, par2, par3, "");
+    public GuiBackButton(int id, int x, int y) {
+        super(id, x, y, "");
 
         this.width = 20;
         this.height = 20;

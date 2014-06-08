@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.util.Rectangle;
 import uk.codingbadgers.survivalplus.ModConstants;
 import uk.codingbadgers.survivalplus.SurvivalPlus;
 import uk.codingbadgers.survivalplus.data.SkillsData;
@@ -17,6 +18,8 @@ import uk.codingbadgers.survivalplus.network.packets.TabDataPacket;
 public class ProgressTab extends SkillsTab {
 
     public static final float SCALE = 0.00390625F;
+    private static final int HOVER_COLOUR = 0x7D87BEFF;
+
     private static final Icon icon = new SimpleIcon(new ResourceLocation(ModConstants.MOD_ID, "textures/icons/skills.png"));
     private static final ResourceLocation background = new ResourceLocation(ModConstants.MOD_ID, "textures/gui/tabs/tab-progress.png");
 
@@ -24,6 +27,9 @@ public class ProgressTab extends SkillsTab {
 
     private SkillsTab subTab;
     private GuiButton backButton;
+
+    private int xPos;
+    private int yPos;
 
     public static void setData(SkillsData data) {
         ProgressTab.data = data;
@@ -45,6 +51,8 @@ public class ProgressTab extends SkillsTab {
 
     @Override
     public void drawTabContent(Minecraft mc, int xPos, int yPos, int mouseX, int mouseY, float scroll) {
+        this.xPos = xPos;
+        this.yPos = yPos;
         if (data == null) {
             return;
         }
@@ -84,7 +92,7 @@ public class ProgressTab extends SkillsTab {
                 }
 
                 if (hover == j) { // Draw hovering highlight
-                    drawRect(xPos + (x * 77), yPos + (y * 38) - 1, xPos + ((x + 1) * 77) - 5, yPos + ((y + 1) * 38) - 6, 0x7D87BEFF);
+                    drawRect(xPos + (x * 77), yPos + (y * 38) - 1, xPos + ((x + 1) * 77) - 5, yPos + ((y + 1) * 38) - 6, HOVER_COLOUR);
                 }
 
                 Skill skill = data.skills[j];
@@ -98,9 +106,17 @@ public class ProgressTab extends SkillsTab {
     }
 
     private int getHovering(int mouseX, int mouseY) {
-        int x = (int) ((mouseX - 8) / 78f);
-        int y = (int) ((mouseY - 9) / 37f);
-        return x - 1 + ((y - 1) * 3);
+
+        if (isMouseInside(mouseX, mouseY, xPos + 8, yPos + 9, 226, 147)) {
+            mouseX = mouseX - xPos;
+            mouseY = mouseY - yPos;
+
+            int x = (int) ((mouseX - 8) / 78f);
+            int y = (int) ((mouseY - 9) / 37f);
+            return x + ((y) * 3);
+        }
+
+        return -1;
     }
 
     private void drawProgressBar(int x, int y, float progress) {
@@ -150,4 +166,10 @@ public class ProgressTab extends SkillsTab {
             }
         }
     }
+
+    private boolean isMouseInside(int mouseX, int mouseY, int x, int y, int w, int h) {
+        Rectangle bb = new Rectangle(x, y, w, h);
+        return bb.contains(mouseX, mouseY);
+    }
+
 }

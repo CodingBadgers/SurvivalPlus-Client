@@ -28,6 +28,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -43,6 +45,8 @@ public class RemoteIcon extends AbstractIcon {
 
     private final URL url;
     private final String hash;
+
+    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     private State state = State.LOADING;
     private int tick;
@@ -90,7 +94,7 @@ public class RemoteIcon extends AbstractIcon {
                                 throw new IOException("Could not created cache directory for asset " + hash);
                             }
 
-                            image = ImageIO.read(input);
+                            setImage(ImageIO.read(input));
                             ImageIO.write(image, "png", cached);
 
                             String local = ChecksumGenerator.createSha1(new FileInputStream(cached));
@@ -120,6 +124,7 @@ public class RemoteIcon extends AbstractIcon {
     }
 
     public void draw(Minecraft mc, int x, int y, int z, int w, int h) {
+        readWriteLock.readLock().lock();
         this.checkTextureUploaded();
 
         if (state == State.LOADING) { // Draw animated loading animation - should never happen, but this is too awesome
@@ -145,6 +150,8 @@ public class RemoteIcon extends AbstractIcon {
             glBindTexture(GL_TEXTURE_2D, getGlTextureId());
         }
 
+        readWriteLock.readLock().unlock();
+
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
         tessellator.addVertexWithUV((double) (x), (double) (y + h), (double) z, 0, 1);
@@ -155,6 +162,8 @@ public class RemoteIcon extends AbstractIcon {
     }
 
     private void checkTextureUploaded() {
+        readWriteLock.readLock().lock();
+
         if (state == State.LOADING && image != null) {
             if (this.hasTextureId()) {
                 this.deleteGlTexture();
@@ -164,14 +173,20 @@ public class RemoteIcon extends AbstractIcon {
             state = State.LOADED;
             LOGGER.info(ICON_REMOTE, "Loaded texture {} ({})", getGlTextureId(), url.toExternalForm());
         }
+
+        readWriteLock.readLock().unlock();
     }
 
     public void setImage(BufferedImage image) {
+        readWriteLock.writeLock().lock();
         this.image = image;
+        readWriteLock.writeLock().unlock();
     }
 
     public void setState(State state) {
+        readWriteLock.writeLock().lock();
         this.state = state;
+        readWriteLock.writeLock().unlock();
     }
 
     private enum State {

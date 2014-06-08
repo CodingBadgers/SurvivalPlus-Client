@@ -31,6 +31,7 @@ public class SkillsGui extends SurvivalPlusGui {
     private static final ResourceLocation guiTexture = new ResourceLocation(ModConstants.MOD_ID, "textures/gui/skills.png");
 
     private static List<SkillsTab> tabs = Lists.newLinkedList();
+    private static List<SkillsTab> globalTabs = Lists.newLinkedList();
     private int selectedTab = 0;
 
     private static final int WIDTH = 256;
@@ -48,6 +49,8 @@ public class SkillsGui extends SurvivalPlusGui {
 
     public static void clearTabs() {
         tabs.clear();
+        globalTabs.clear();
+
         addDefaultTabs();
     }
 
@@ -62,6 +65,11 @@ public class SkillsGui extends SurvivalPlusGui {
 
     public static void registerTab(SkillsTab tab) {
         tabs.add(tab);
+
+        if (tab.isGlobal()) {
+            globalTabs.add(tab);
+        }
+
         tab.getIcon().loadTexture(Minecraft.getMinecraft());
     }
 
@@ -93,7 +101,7 @@ public class SkillsGui extends SurvivalPlusGui {
         int startY = (this.height / 2) - (HEIGHT / 2);
         super.mouseClicked(mouseX, mouseY, button);
 
-        for (int i = 0; i < tabs.size(); i++) {
+        for (int i = 0; i < globalTabs.size(); i++) {
             if (isMouseInside(mouseX, mouseY, startX + (i * 28), startY - 28, 28, 28)) {
                 setSelectedTab(i);
                 break;
@@ -101,7 +109,7 @@ public class SkillsGui extends SurvivalPlusGui {
         }
 
         if (isMouseInside(mouseX, mouseY, startX + 8, startY + 9, 226, 147)) {
-            SkillsTab tab = tabs.get(selectedTab);
+            SkillsTab tab = globalTabs.get(selectedTab);
             tab.mouseClicked(mouseX, mouseY, button);
         }
     }
@@ -140,11 +148,7 @@ public class SkillsGui extends SurvivalPlusGui {
         int x = startX;
         int y = startY - 28;
 
-        for (int i = 0; i < tabs.size(); i++) {
-            if (!tabs.get(i).isGlobal()) {
-                continue;
-            }
-
+        for (int i = 0; i < globalTabs.size(); i++) {
             if (i != selectedTab) {
                 renderTab(i, x, y);
             }
@@ -169,7 +173,7 @@ public class SkillsGui extends SurvivalPlusGui {
         this.drawTexturedModalRect(startX + 239, (int) (startY + 9 + Math.floor(scrollPos * SCROLL_LENGTH)), scrollingEnabled ? 0 : 12, 164, 12, 15);
         tabs.get(selectedTab).drawTabContent(mc, startX + 8, startY + 10, mouseX, mouseY, scrollPos);
 
-        for (int i = 0; i < tabs.size(); i++) {
+        for (int i = 0; i < globalTabs.size(); i++) {
             if (isMouseInside(mouseX, mouseY, startX + (i * 28), startY - 28, 28, 28)) {
                 this.drawHoveringText(Arrays.asList(tabs.get(i).getName()), mouseX, mouseY, mc.fontRenderer);
                 break;
@@ -185,8 +189,8 @@ public class SkillsGui extends SurvivalPlusGui {
     }
 
     private void renderTab(int id, int x, int y) {
-        mc.mcProfiler.startSection(tabs.get(id).getName());
-        tabs.get(id).renderTab(mc, x, y, selectedTab == id, id == 0 ? 0 : 1);
+        mc.mcProfiler.startSection(globalTabs.get(id).getName());
+        globalTabs.get(id).renderTab(mc, x, y, selectedTab == id, id == 0 ? 0 : 1);
         mc.mcProfiler.endSection();
     }
 
@@ -196,7 +200,7 @@ public class SkillsGui extends SurvivalPlusGui {
         this.scrollPos = 0;
 
         if (tabs.get(selectedTab) instanceof RemoteTab) {
-            SurvivalPlus.INSTANCE.sendPacket(TabDataPacket.build(tabs.get(selectedTab).getId()));
+            SurvivalPlus.INSTANCE.sendPacket(TabDataPacket.build(globalTabs.get(selectedTab).getId()));
         }
     }
 }
